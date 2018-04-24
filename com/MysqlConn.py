@@ -9,8 +9,8 @@ def insertCollection(items):
     cursor = db.cursor()
 
     for collection in items:
-        sql = "insert into aws_collection(title,url,comment_count,score) values ('%s','%s','%d','%s')" % \
-          (collection.title,collection.url,collection.comment,collection.score)
+        sql = "insert into aws_collection(id,title,url,comment_count,score,page,indexSeq,type) values ('%s','%s','%s','%d','%s','%d','%d','%s')" % \
+          (collection.id,collection.title,collection.url,collection.comment,collection.score,collection.page,collection.indexSeq,collection.itemtype)
 
         try:
             cursor.execute(sql)
@@ -32,11 +32,15 @@ def queryCollection():
     results = cursor.fetchall()
 
     for item in results:
-        title = item[0]
-        url = item[1]
-        comment = item[2]
-        score = item[3]
-        collection = AwsCollection(title,url,comment,score)
+        id = item[0]
+        title = item[1]
+        url = item[2]
+        comment = item[3]
+        score = item[4]
+        page = item[5]
+        indexSeq = item[6]
+        itemtype = item[7]
+        collection = AwsCollection(id,title,url,comment,score,page,indexSeq,itemtype)
         items.append(collection)
 
     db.close()

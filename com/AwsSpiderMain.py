@@ -26,7 +26,9 @@ html = r.content
 
 count = 0
 
-while count < 1:
+indexSeq = 0
+
+while count < 5:
 
     print "page:"+str(count)
 
@@ -50,6 +52,21 @@ while count < 1:
 
         itemUrl = tagA.attrs["href"]
 
+        itemId = "ad"
+
+        itemType = "normal"
+
+        dpIndex = itemUrl.find("dp/")
+
+        if dpIndex > 0:
+            itemId = itemUrl[dpIndex+3:dpIndex+13]
+
+        dpIndex = itemUrl.find("dp%2F")
+
+        if dpIndex > 0:
+            itemId = itemUrl[dpIndex+5:dpIndex+15]
+            itemType = "ad"
+
         if itemUrl.find(rootUrl) < 0:
             itemUrl = rootUrl + tagA.attrs["href"]
 
@@ -66,9 +83,11 @@ while count < 1:
             score = start.get_text()
             print score
 
-        collecion = AwsCollection(title,itemUrl,int(commentCount),score)
+        collecion = AwsCollection(itemId,title,itemUrl,int(commentCount),score,count,indexSeq,itemType)
 
         awsCollection.append(collecion)
+
+        indexSeq = indexSeq +1
 
 
 
@@ -86,7 +105,7 @@ while count < 1:
 
 
 
-#MysqlConn.insertCollection(awsCollection)
+MysqlConn.insertCollection(awsCollection)
 
 
 
