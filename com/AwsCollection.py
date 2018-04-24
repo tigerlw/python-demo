@@ -20,3 +20,8 @@ class StatisItem:
         self.word = word
         self.frequency = frequency
         self.num = num
+
+class DescItem:
+    def  __init__(self,id,content):
+        self.id = id
+        self.content = content

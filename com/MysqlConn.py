@@ -62,3 +62,20 @@ def insertStatis(statis):
             db.rollback()
 
     db.close()
+
+def insertDesc(desc):
+    db = MySQLdb.connect("localhost", "root", "123456", "ocs_test", charset='utf8')
+    cursor = db.cursor()
+
+    for item in desc:
+        sql = "insert into aws_collection_content(id,content) values ('%s','%s')" % \
+              (item.id, item.content)
+
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+
+    db.close()
+

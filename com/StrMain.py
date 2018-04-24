@@ -2,9 +2,7 @@
 
 import  AwsCollection as awsc
 
-collection =  awsc.AwsCollection('123','123','123',1,'3.7 out of 5 stars')
 
-print collection
 
 
 commitNum = '1,855'
@@ -20,4 +18,5 @@ print msg.find('dp%2F')
 
 print msg[192:202]
 
+print "123"+"\n"+"222"
 

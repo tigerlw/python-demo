@@ -13,7 +13,7 @@ items = MysqlConn.queryCollection()
 output = []
 statisItems = []
 
-wordNum = 5
+wordNum = 4
 
 for item in items:
     tmpOutput = Ngrams.getNgrams(item.title, wordNum)
