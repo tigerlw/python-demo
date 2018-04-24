@@ -16,3 +16,6 @@ CREATE TABLE `aws_collection_statis` (
   `frequency` int(11) DEFAULT NULL,
   `num` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+https://blog.csdn.net/lcr_happy/article/details/73252819
