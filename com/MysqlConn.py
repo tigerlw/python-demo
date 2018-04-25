@@ -9,8 +9,9 @@ def insertCollection(items):
     cursor = db.cursor()
 
     for collection in items:
-        sql = "insert into aws_collection(id,title,url,comment_count,score,page,indexSeq,type) values ('%s','%s','%s','%d','%s','%d','%d','%s')" % \
-          (collection.id,collection.title,collection.url,collection.comment,collection.score,collection.page,collection.indexSeq,collection.itemtype)
+        sql = "insert into aws_collection(id,title,url,comment_count,score,page,indexSeq,type,keyword) \
+        values ('%s','%s','%s','%d','%s','%d','%d','%s','%s')" % \
+          (collection.id,collection.title,collection.url,collection.comment,collection.score,collection.page,collection.indexSeq,collection.itemtype,collection.keyword)
 
         try:
             cursor.execute(sql)
@@ -21,13 +22,13 @@ def insertCollection(items):
     db.close()
 
 
-def queryCollection():
+def queryCollection(keyword):
     db = MySQLdb.connect("localhost", "root", "123456", "ocs_test", charset='utf8')
     cursor = db.cursor()
 
     items = []
 
-    sql = "select * from aws_collection"
+    sql = "select * from aws_collection where keyword='%s'" % (keyword)
     cursor.execute(sql)
     results = cursor.fetchall()
 
@@ -40,7 +41,8 @@ def queryCollection():
         page = item[5]
         indexSeq = item[6]
         itemtype = item[7]
-        collection = AwsCollection(id,title,url,comment,score,page,indexSeq,itemtype)
+        keyword = item[8]
+        collection = AwsCollection(id,title,url,comment,score,page,indexSeq,itemtype,keyword)
         items.append(collection)
 
     db.close()
@@ -52,8 +54,8 @@ def insertStatis(statis):
     cursor = db.cursor()
 
     for item in statis:
-        sql = "insert into aws_collection_statis(word,frequency,num) values ('%s','%d','%d')" % \
-              (item.word, item.frequency, item.num)
+        sql = "insert into aws_collection_statis(word,frequency,num,keyword) values ('%s','%d','%d','%s')" % \
+              (item.word, item.frequency, item.num,item.keyword)
 
         try:
             cursor.execute(sql)

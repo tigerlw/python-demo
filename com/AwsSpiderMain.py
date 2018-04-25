@@ -19,6 +19,8 @@ headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5)AppleWebK
 
 url = "https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=hair+wax"
 
+keyword = "hair wax"
+
 rootUrl = "https://www.amazon.com"
 
 r = session.get(url, headers=headers)
@@ -38,6 +40,14 @@ while count < 5:
 
     for item in items:
         div = item.find("div",{"class":"a-row a-spacing-none a-spacing-top-mini"})
+
+        if div == None :
+            div = item.find("div", {"class": "a-row a-spacing-none scx-truncate-medium sx-line-clamp-2"})
+
+        if div == None:
+            div = item.find("div", {"class": "a-row a-spacing-none"})
+
+
         print item.attrs["id"]
 
         tagA = div.find("a")
@@ -71,19 +81,27 @@ while count < 5:
             itemUrl = rootUrl + tagA.attrs["href"]
 
         print  itemUrl
-        comment = item.find("a",{"class":"a-size-small a-link-normal a-text-normal"})
+        comments = item.findAll("a",{"class":"a-size-small a-link-normal a-text-normal"})
 
-        if comment != None:
-            commentCount = comment.get_text().replace(',','')
-            print commentCount
+        commentCount = '0'
+        for commentItem in comments:
+            commentStr = commentItem.get_text().replace(',','')
+            if commentStr.isdigit():
+                commentCount = commentItem.get_text().replace(',','')
+                break
 
-        start = item.find("span",{"class":"a-icon-alt"})
+        print commentCount
 
-        if start != None:
-            score = start.get_text()
-            print score
+        starts = item.findAll("span",{"class":"a-icon-alt"})
 
-        collecion = AwsCollection(itemId,title,itemUrl,int(commentCount),score,count,indexSeq,itemType)
+        for startItem in starts:
+            score = startItem.get_text()
+            if score.find('stars') > 0:
+                break
+
+        print score
+
+        collecion = AwsCollection(itemId,title,itemUrl,int(commentCount),score,count,indexSeq,itemType,keyword)
 
         awsCollection.append(collecion)
 
